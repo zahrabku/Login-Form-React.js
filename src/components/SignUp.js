@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { validate } from "./validate";
 
 export const SignUp = () => {
   const [data, setData] = useState({
@@ -8,6 +9,7 @@ export const SignUp = () => {
     confirmPassword: "",
     isAccepted: false,
   });
+  const [errors, setErrors] = useState({});
 
   const signupHandler = (event) => {
     if (event.target.name === "isAccepted") {
@@ -15,9 +17,11 @@ export const SignUp = () => {
     } else {
       setData({ ...data, [event.target.name]: event.target.value });
     }
-
-    console.log(data);
   };
+
+  useEffect(() => {
+    setErrors(validate(data));
+  }, [data]);
 
   return (
     <div>
@@ -32,6 +36,7 @@ export const SignUp = () => {
             value={data.name}
             onChange={signupHandler}
           />
+          {errors.nameError && <span>{errors.nameError}</span>}
         </div>
         <div>
           <label>Email</label>
@@ -42,6 +47,7 @@ export const SignUp = () => {
             value={data.email}
             onChange={signupHandler}
           />
+          {errors.emailError && <span>{errors.emailError}</span>}
         </div>
         <div>
           <label>Password</label>
@@ -52,6 +58,7 @@ export const SignUp = () => {
             value={data.password}
             onChange={signupHandler}
           />
+          {errors.passwordError && <span>{errors.passwordError}</span>}
         </div>
         <div>
           <label>Confirm Password</label>
@@ -62,6 +69,9 @@ export const SignUp = () => {
             value={data.confirmPassword}
             onChange={signupHandler}
           />
+          {errors.confirmPasswordError && (
+            <span>{errors.confirmPasswordError}</span>
+          )}
         </div>
         <div>
           <input
@@ -71,6 +81,7 @@ export const SignUp = () => {
             onChange={signupHandler}
           />
           <label>blah blah</label>
+          {errors.isAcceptedError && <span>{errors.isAcceptedError}</span>}
         </div>
         <div>
           <a href="#">Login</a>

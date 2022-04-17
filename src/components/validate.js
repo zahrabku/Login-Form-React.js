@@ -1,4 +1,4 @@
-const validate = (data) => {
+export const validate = (data) => {
   let errors = {
     nameError: "",
     emailError: "",
